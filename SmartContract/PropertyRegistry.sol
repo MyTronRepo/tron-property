@@ -43,6 +43,7 @@ struct Property {
     address currentOwner;
     string ownerNationalIdHash;
     bool exists;
+    bool verified;
 }
 
 struct Document {
@@ -100,3 +101,44 @@ event DocumentRevoked(
     uint256 propertyId
 );
 
+function registerProperty(
+
+    string memory _province,
+    string memory _city,
+    string memory _district,
+    string memory _parcelNumber,
+    uint256 _area,
+    uint16 _buildYear,
+    string memory _usageType,
+    string memory _constructionStatus,
+    string memory _latitude,
+    string memory _longitude,
+    string memory _ownerNationalIdHash
+
+) public {
+
+    propertyCounter++;
+
+    properties[propertyCounter] = Property(
+        propertyCounter,
+        _province,
+        _city,
+        _district,
+        _parcelNumber,
+        _area,
+        _buildYear,
+        _usageType,
+        _constructionStatus,
+        _latitude,
+        _longitude,
+        msg.sender,
+        _ownerNationalIdHash,
+        true,
+        false
+    );
+
+    emit PropertyRegistered(
+        propertyCounter,
+        msg.sender
+    );
+}
