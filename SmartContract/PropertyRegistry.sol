@@ -142,3 +142,70 @@ function registerProperty(
         msg.sender
     );
 }
+
+
+function registerDocument(
+    uint256 _propertyId,
+    string memory _documentHash,
+    string memory _documentURI
+)
+public
+onlyPropertyOwner(_propertyId)
+{
+    require(
+        properties[_propertyId].exists,
+        "Property does not exist"
+    );
+
+    require(
+        bytes(documents[_propertyId].documentHash).length == 0,
+        "Document already exists"
+    );
+
+    documents[_propertyId] = Document(
+        _propertyId,
+        _documentHash,
+        _documentURI,
+        true,
+        block.timestamp
+    );
+
+    emit DocumentRegistered(
+        _propertyId,
+        _documentHash
+    );
+}
+
+
+
+function requestTransfer(
+    uint256 _propertyId,
+    address _buyer
+)
+public
+onlyPropertyOwner(_propertyId)
+{
+    require(
+        properties[_propertyId].exists,
+        "Property does not exist"
+    );
+
+    transferCounter++;
+
+    transferRequests[transferCounter] = TransferRequest(
+        transferCounter,
+        _propertyId,
+        msg.sender,
+        _buyer,
+        false,
+        false,
+        false,
+        block.timestamp
+    );
+
+    emit TransferRequested(
+        transferCounter,
+        _propertyId,
+        _buyer
+    );
+}
