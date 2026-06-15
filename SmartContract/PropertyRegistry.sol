@@ -165,6 +165,11 @@ contract PropertyRegistry {
     function approveTransfer(uint256 _transferId) public {
         TransferRequest storage transferRequest = transferRequests[_transferId];
 
+        require(
+            transferRequest.transferId > 0,
+            "Transfer request does not exist"
+        );
+
         require(!transferRequest.completed, "Transfer already completed");
 
         if (msg.sender == transferRequest.buyer) {
