@@ -75,3 +75,28 @@ mapping(
 mapping(
     uint256 => TransferRequest
 ) public transferRequests;
+
+event PropertyRegistered(
+    uint256 propertyId,
+    address owner
+);
+
+event DocumentRegistered(
+    uint256 propertyId,
+    string documentHash
+);
+
+event TransferRequested(
+    uint256 transferId,
+    uint256 propertyId,
+    address buyer
+);
+
+event TransferApproved(
+    uint256 transferId
+);
+
+event DocumentRevoked(
+    uint256 propertyId
+);
+
