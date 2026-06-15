@@ -63,3 +63,15 @@ struct TransferRequest {
     bool completed;
     uint256 timestamp;
 }
+
+mapping(
+    uint256 => Property
+) public properties;
+
+mapping(
+    uint256 => Document
+) public documents;
+
+mapping(
+    uint256 => TransferRequest
+) public transferRequests;
