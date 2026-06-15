@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.0;
 
 contract PropertyRegistry {
@@ -207,8 +205,6 @@ onlyPropertyOwner(_propertyId)
         _buyer
     );
 }
-
-
 
 function approveTransfer(
     uint256 _transferId
