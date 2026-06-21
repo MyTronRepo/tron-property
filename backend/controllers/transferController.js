@@ -109,10 +109,77 @@ const getAllTransfers = async (
 
 };
 
+const approveTransferByBuyer = async (
+    req,
+    res
+) => {
+
+    try {
+
+        const {
+            transferId
+        } = req.params;
+
+        const transfer =
+            transfers.find(
+                item =>
+                    item.transferId === transferId
+            );
+
+        if (!transfer) {
+
+            return errorResponse(
+                res,
+                "Transfer not found",
+                404
+            );
+
+        }
+
+        if (
+            transfer.status !==
+            "PendingBuyer"
+        ) {
+
+            return errorResponse(
+                res,
+                "Transfer cannot be approved by buyer",
+                400
+            );
+
+        }
+
+        transfer.buyerApproved =
+            true;
+
+        transfer.status =
+            "PendingAdmin";
+
+        return successResponse(
+            res,
+            transfer,
+            "Transfer approved by buyer"
+        );
+
+    }
+    catch (error) {
+
+        return errorResponse(
+            res,
+            error.message,
+            500
+        );
+
+    }
+
+};
+
 module.exports = {
 
     createTransferRequest,
 
-    getAllTransfers
+    getAllTransfers,
+
+    approveTransferByBuyer
 
 };

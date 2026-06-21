@@ -6,7 +6,9 @@ const {
 
     createTransferRequest,
 
-    getAllTransfers
+    getAllTransfers,
+
+    approveTransferByBuyer
 
 } = require(
     "../controllers/transferController"
@@ -20,6 +22,11 @@ router.post(
 router.get(
     "/",
     getAllTransfers
+);
+
+router.patch(
+    "/buyer-approve/:transferId",
+    approveTransferByBuyer
 );
 
 module.exports = router;
