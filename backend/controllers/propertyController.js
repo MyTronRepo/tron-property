@@ -5,7 +5,9 @@ const {
     errorResponse
 } = require("../utils/responseHandler");
 
-const properties = [];
+const {
+    properties
+} = require("../data/mockDb");
 
 const healthCheck = async (req, res) => {
 
@@ -37,8 +39,6 @@ const registerProperty = async (req, res) => {
             owners
         } = req.body;
 
-        // Property Validation
-
         if (
             !province ||
             !city ||
@@ -53,8 +53,6 @@ const registerProperty = async (req, res) => {
             );
 
         }
-
-        // Owners Validation
 
         if (
             !owners ||

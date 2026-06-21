@@ -7,7 +7,9 @@ const {
     errorResponse
 } = require("../utils/responseHandler");
 
-const documents = [];
+const {
+    documents
+} = require("../data/mockDb");
 
 const uploadDocument = async (
     req,

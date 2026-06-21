@@ -5,7 +5,9 @@ const {
     errorResponse
 } = require("../utils/responseHandler");
 
-const transfers = [];
+const {
+    transfers
+} = require("../data/mockDb");
 
 const createTransferRequest = async (
     req,
@@ -149,8 +151,7 @@ const approveTransferByBuyer = async (
 
         }
 
-        transfer.buyerApproved =
-            true;
+        transfer.buyerApproved = true;
 
         transfer.status =
             "PendingAdmin";
