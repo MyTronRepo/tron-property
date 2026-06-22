@@ -1,42 +1,60 @@
 const { v4: uuidv4 } = require("uuid");
 
+const Property =
+    require("../models/Property");
+
 const {
     successResponse,
     errorResponse
 } = require("../utils/responseHandler");
 
-const {
-    properties
-} = require("../data/mockDb");
-
-const healthCheck = async (req, res) => {
+const healthCheck = async (
+    req,
+    res
+) => {
 
     return successResponse(
         res,
         {
-            service: "DApp TRON Backend"
+            service:
+                "DApp TRON Backend"
         },
         "Backend is running"
     );
 
 };
 
-const registerProperty = async (req, res) => {
+const registerProperty = async (
+    req,
+    res
+) => {
 
     try {
 
         const {
+
             province,
+
             city,
+
             district,
+
             parcelNumber,
+
             area,
+
             buildYear,
+
             usageType,
+
             constructionStatus,
+
             latitude,
+
             longitude,
+
             owners
+
         } = req.body;
 
         if (
@@ -86,7 +104,8 @@ const registerProperty = async (req, res) => {
 
             }
 
-            totalShare += Number(owner.share);
+            totalShare +=
+                Number(owner.share);
 
         }
 
@@ -100,30 +119,41 @@ const registerProperty = async (req, res) => {
 
         }
 
-        const property = {
+        const property =
+            await Property.create({
 
-            propertyId: uuidv4(),
+                propertyId:
+                    uuidv4(),
 
-            province,
-            city,
-            district,
-            parcelNumber,
-            area,
-            buildYear,
-            usageType,
-            constructionStatus,
-            latitude,
-            longitude,
+                province,
 
-            owners,
+                city,
 
-            status: "Pending",
+                district,
 
-            exists: true
+                parcelNumber,
 
-        };
+                area,
 
-        properties.push(property);
+                buildYear,
+
+                usageType,
+
+                constructionStatus,
+
+                latitude,
+
+                longitude,
+
+                owners,
+
+                status:
+                    "Pending",
+
+                exists:
+                    true
+
+            });
 
         return successResponse(
             res,
@@ -145,6 +175,9 @@ const registerProperty = async (req, res) => {
 };
 
 module.exports = {
+
     healthCheck,
+
     registerProperty
+
 };
