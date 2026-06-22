@@ -1,17 +1,16 @@
 module.exports = {
   networks: {
-    development: {
-      privateKey: "",
+    nile: {
+      privateKey: process.env.PRIVATE_KEY,
       userFeePercentage: 100,
       feeLimit: 1000000000,
-      originEnergyLimit: 10000000,
-      fullHost: "https://api.nileex.io"
+      fullHost: "https://nile.trongrid.io"
     }
   },
 
   compilers: {
     solc: {
-      version: "0.8.26"
+      version: "0.8.20"
     }
   }
 };
