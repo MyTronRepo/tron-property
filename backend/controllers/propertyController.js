@@ -212,12 +212,53 @@ const searchProperties = async (req, res) => {
 
 };
 
+const getPropertyById = async (req, res) => {
+
+    try {
+
+        const { propertyId } = req.params;
+
+        const property = await Property.findOne({
+            propertyId
+        });
+
+        if (!property) {
+
+            return errorResponse(
+                res,
+                "Property not found",
+                404
+            );
+
+        }
+
+        return successResponse(
+            res,
+            property,
+            "Property fetched successfully"
+        );
+
+    }
+    catch (error) {
+
+        return errorResponse(
+            res,
+            error.message,
+            500
+        );
+
+    }
+
+};
+
 module.exports = {
 
     healthCheck,
 
     registerProperty,
 
-    searchProperties
+    searchProperties,
+
+    getPropertyById
 
 };

@@ -8,7 +8,9 @@ const {
 
     registerProperty,
 
-    searchProperties
+    searchProperties,
+
+    getPropertyById
 
 } = require("../controllers/propertyController");
 
@@ -22,6 +24,11 @@ router.post(
 router.get(
     "/search",
     searchProperties
+);
+
+router.get(
+    "/:propertyId",
+    getPropertyById
 );
 
 module.exports = router;
