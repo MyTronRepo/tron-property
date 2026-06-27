@@ -2,41 +2,22 @@ const express = require("express");
 
 const router = express.Router();
 
-const upload =
-    require("../middleware/uploadMiddleware");
-
 const {
-    uploadDocument,
-    getAllDocuments,
-    getDocumentByPropertyId,
-    verifyDocument,
-    revokeDocument
+
+    registerDocument,
+
+    getDocumentsByProperty
+
 } = require("../controllers/documentController");
 
 router.post(
-    "/upload",
-    upload.single("document"),
-    uploadDocument
+    "/register",
+    registerDocument
 );
 
 router.get(
-    "/",
-    getAllDocuments
-);
-
-router.get(
-    "/:propertyId",
-    getDocumentByPropertyId
-);
-
-router.patch(
-    "/verify/:propertyId",
-    verifyDocument
-);
-
-router.patch(
-    "/revoke/:propertyId",
-    revokeDocument
+    "/property/:propertyId",
+    getDocumentsByProperty
 );
 
 module.exports = router;
