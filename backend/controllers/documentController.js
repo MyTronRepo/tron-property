@@ -14,6 +14,14 @@ const {
 
 } = require("../utils/responseHandler");
 
+const {
+
+    uploadToIPFS
+
+} = require("../services/ipfsService");
+
+const fs = require("fs");
+
 const registerDocument = async (req, res) => {
 
     try {
@@ -315,10 +323,22 @@ const uploadDocument = async (req, res) => {
 
         }
 
-        document.documentURI =
-            req.file.path;
+        const cid =
+            await uploadToIPFS(
+
+                req.file.path
+
+            );
+
+        document.documentURI = cid;
 
         await document.save();
+
+        fs.unlinkSync(
+
+            req.file.path
+
+        );
 
         return successResponse(
 
@@ -326,7 +346,7 @@ const uploadDocument = async (req, res) => {
 
             document,
 
-            "File uploaded successfully"
+            "File uploaded to IPFS successfully"
 
         );
 
