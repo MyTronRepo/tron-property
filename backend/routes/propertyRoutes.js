@@ -10,7 +10,9 @@ const {
 
     searchProperties,
 
-    getPropertyById
+    getPropertyById,
+
+    updatePropertyStatus
 
 } = require("../controllers/propertyController");
 
@@ -29,6 +31,11 @@ router.get(
 router.get(
     "/:propertyId",
     getPropertyById
+);
+
+router.patch(
+    "/:propertyId/status",
+    updatePropertyStatus
 );
 
 module.exports = router;

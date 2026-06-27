@@ -251,6 +251,81 @@ const getPropertyById = async (req, res) => {
 
 };
 
+const updatePropertyStatus = async (req, res) => {
+
+    try {
+
+        const { propertyId } = req.params;
+
+        const { status } = req.body;
+
+        if (!status) {
+
+            return errorResponse(
+                res,
+                "Status is required",
+                400
+            );
+
+        }
+
+        const allowedStatus = [
+
+            "Pending",
+
+            "Approved",
+
+            "Rejected"
+
+        ];
+
+        if (!allowedStatus.includes(status)) {
+
+            return errorResponse(
+                res,
+                "Invalid status value",
+                400
+            );
+
+        }
+
+        const property = await Property.findOne({
+            propertyId
+        });
+
+        if (!property) {
+
+            return errorResponse(
+                res,
+                "Property not found",
+                404
+            );
+
+        }
+
+        property.status = status;
+
+        await property.save();
+
+        return successResponse(
+            res,
+            property,
+            "Property status updated successfully"
+        );
+
+    }
+    catch (error) {
+
+        return errorResponse(
+            res,
+            error.message,
+            500
+        );
+
+    }
+
+};
+
 module.exports = {
 
     healthCheck,
@@ -259,6 +334,8 @@ module.exports = {
 
     searchProperties,
 
-    getPropertyById
+    getPropertyById,
+
+    updatePropertyStatus
 
 };
