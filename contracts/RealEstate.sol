@@ -22,7 +22,7 @@ contract RealEstate {
     mapping(string => Transfer) public transfers;
 
     // =========================
-    // 🏠 Register Property
+    // Register Property
     // =========================
     function registerProperty(
         string memory _propertyId,
@@ -39,7 +39,7 @@ contract RealEstate {
     }
 
     // =========================
-    // 📄 Update Document Hash
+    // Update Document Hash
     // =========================
     function updateDocument(
         string memory _propertyId,
@@ -52,7 +52,7 @@ contract RealEstate {
     }
 
     // =========================
-    // 🔁 Create Transfer
+    // Create Transfer
     // =========================
     function createTransfer(
         string memory _transferId,
@@ -74,7 +74,7 @@ contract RealEstate {
     }
 
     // =========================
-    // ✔ Approve Transfer
+    // Approve Transfer
     // =========================
     function approveTransfer(string memory _transferId) public {
         Transfer storage t = transfers[_transferId];
@@ -87,7 +87,7 @@ contract RealEstate {
     }
 
     // =========================
-    // 🔍 Get Property
+    // Get Property
     // =========================
     function getProperty(
         string memory _propertyId
