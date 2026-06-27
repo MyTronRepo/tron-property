@@ -274,6 +274,80 @@ const verifyDocument = async (req, res) => {
 
 };
 
+const uploadDocument = async (req, res) => {
+
+    try {
+
+        const { documentId } = req.params;
+
+        const document =
+            await Document.findOne({
+
+                documentId
+
+            });
+
+        if (!document) {
+
+            return errorResponse(
+
+                res,
+
+                "Document not found",
+
+                404
+
+            );
+
+        }
+
+        if (!req.file) {
+
+            return errorResponse(
+
+                res,
+
+                "No file uploaded",
+
+                400
+
+            );
+
+        }
+
+        document.documentURI =
+            req.file.path;
+
+        await document.save();
+
+        return successResponse(
+
+            res,
+
+            document,
+
+            "File uploaded successfully"
+
+        );
+
+    }
+
+    catch (error) {
+
+        return errorResponse(
+
+            res,
+
+            error.message,
+
+            500
+
+        );
+
+    }
+
+};
+
 module.exports = {
 
     registerDocument,
@@ -282,6 +356,8 @@ module.exports = {
 
     getDocumentById,
 
-    verifyDocument
+    verifyDocument,
+
+    uploadDocument
 
 };
