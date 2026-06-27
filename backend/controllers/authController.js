@@ -1,221 +1,118 @@
 const jwt = require("jsonwebtoken");
 
-const User =
-    require("../models/User");
+const User = require("../models/User");
 
 const {
     successResponse,
     errorResponse
 } = require("../utils/responseHandler");
 
-const registerUser = async (
-    req,
-    res
-) => {
+// REGISTER USER
+const registerUser = async (req, res) => {
 
     try {
 
         const {
-
             walletAddress,
-
             nationalIdHash,
-
             fullName,
-
             role
-
         } = req.body;
 
         if (
-
             !walletAddress ||
-
             !nationalIdHash ||
-
             !fullName
-
         ) {
-
             return errorResponse(
-
                 res,
-
                 "Required fields are missing",
-
                 400
-
             );
-
         }
 
-        const exists =
-            await User.findOne({
-
-                walletAddress
-
-            });
+        const exists = await User.findOne({ walletAddress });
 
         if (exists) {
-
             return errorResponse(
-
                 res,
-
                 "User already exists",
-
                 400
-
             );
-
         }
 
-        const user =
-            await User.create({
-
-                walletAddress,
-
-                nationalIdHash,
-
-                fullName,
-
-                role
-
-            });
+        const user = await User.create({
+            walletAddress,
+            nationalIdHash,
+            fullName,
+            role: role?.toUpperCase() || "OWNER"
+        });
 
         return successResponse(
-
             res,
-
             user,
-
             "User registered successfully"
-
         );
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         return errorResponse(
-
             res,
-
             error.message,
-
             500
-
         );
 
     }
 
 };
 
-const loginUser = async (
-    req,
-    res
-) => {
+// LOGIN USER
+const loginUser = async (req, res) => {
 
     try {
 
-        const {
-
-            walletAddress
-
-        } = req.body;
+        const { walletAddress } = req.body;
 
         if (!walletAddress) {
-
             return errorResponse(
-
                 res,
-
                 "Wallet address is required",
-
                 400
-
             );
-
         }
 
-        const user =
-            await User.findOne({
-
-                walletAddress
-
-            });
+        const user = await User.findOne({ walletAddress });
 
         if (!user) {
-
             return errorResponse(
-
                 res,
-
                 "User not found",
-
                 404
-
             );
-
         }
 
-        const token =
-            jwt.sign(
-
-                {
-
-                    id:
-                        user._id,
-
-                    walletAddress:
-                        user.walletAddress,
-
-                    role:
-                        user.role
-
-                },
-
-                process.env.JWT_SECRET ||
-
-                "dapptronsecret",
-
-                {
-
-                    expiresIn:
-                        "7d"
-
-                }
-
-            );
-
-        return successResponse(
-
-            res,
-
+        const token = jwt.sign(
             {
-
-                token,
-
-                user
-
+                id: user._id,
+                walletAddress: user.walletAddress,
+                role: user.role
             },
-
-            "Login successful"
-
+            process.env.JWT_SECRET || "dapptronsecret",
+            { expiresIn: "7d" }
         );
 
-    }
+        return successResponse(
+            res,
+            { token, user },
+            "Login successful"
+        );
 
-    catch (error) {
+    } catch (error) {
 
         return errorResponse(
-
             res,
-
             error.message,
-
             500
-
         );
 
     }
@@ -223,9 +120,6 @@ const loginUser = async (
 };
 
 module.exports = {
-
     registerUser,
-
     loginUser
-
 };

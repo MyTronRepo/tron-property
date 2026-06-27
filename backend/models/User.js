@@ -20,20 +20,10 @@ const userSchema =
         },
 
         role: {
-            type: String,
-            enum: [
-                "Owner",
-                "Buyer",
-                "Admin",
-                "Observer"
-            ],
-            default: "Owner"
-        },
-
-        isVerified: {
-            type: Boolean,
-            default: false
-        }
+    type: String,
+    enum: ["owner", "buyer", "admin", "observer"],
+    default: "owner"
+}
 
     }, {
         timestamps: true
