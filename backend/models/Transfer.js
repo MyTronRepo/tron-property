@@ -35,8 +35,18 @@ const transferSchema =
         },
 
         adminApproved: {
-            type: Boolean,
-            default: false
+        type: Boolean,
+        default: false
+        },
+
+        blockchainTxId: {
+        type: String,
+        default: ""
+        },
+
+        completed: {
+        type: Boolean,
+        default: false
         },
 
         timestamp: {

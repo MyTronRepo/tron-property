@@ -8,18 +8,16 @@ const {
 
     getAllTransfers,
 
+    getTransferHistory,
+
     approveTransferByBuyer,
 
-    approveTransferByAdmin,
+    approveTransferByAdmin
 
-    getTransferHistory
-
-} = require(
-    "../controllers/transferController"
-);
+} = require("../controllers/transferController");
 
 router.post(
-    "/",
+    "/create",
     createTransferRequest
 );
 

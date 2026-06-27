@@ -52,6 +52,50 @@ const createTransferRequest = async (
 
         }
 
+        const property =
+            await Property.findOne({
+                propertyId
+            });
+
+        if (!property) {
+
+            return errorResponse(
+                res,
+                "Property not found",
+                404
+            );
+
+        }
+
+        const sellerOwner =
+            property.owners.find(
+                owner =>
+                    owner.walletAddress === seller
+            );
+
+        if (!sellerOwner) {
+
+            return errorResponse(
+                res,
+                "Seller is not an owner of this property",
+                400
+            );
+
+        }
+
+        if (
+            sellerOwner.share <
+            Number(transferredShare)
+        ) {
+
+            return errorResponse(
+                res,
+                "Seller ownership share is insufficient",
+                400
+            );
+
+        }
+
         const transfer =
             await Transfer.create({
 
@@ -68,6 +112,10 @@ const createTransferRequest = async (
                 buyerApproved: false,
 
                 adminApproved: false,
+
+                blockchainTxId: "",
+
+                completed: false,
 
                 timestamp: Date.now(),
 
@@ -313,6 +361,21 @@ const approveTransferByAdmin = async (
                 transfer.transferredShare
             );
 
+        if (seller.share === 0) {
+
+            property.owners =
+                property.owners.filter(
+
+                    owner =>
+
+                        owner.walletAddress !==
+
+                        transfer.seller
+
+                );
+
+        }
+
         let buyer =
             property.owners.find(
                 owner =>
@@ -349,6 +412,10 @@ const approveTransferByAdmin = async (
         await property.save();
 
         transfer.adminApproved = true;
+
+        transfer.completed = true;
+
+        transfer.blockchainTxId = "";
 
         transfer.status = "Approved";
 
