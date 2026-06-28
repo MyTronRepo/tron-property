@@ -153,8 +153,39 @@ const getAllTransfers = async (
 
     try {
 
+        const {
+
+            propertyId,
+
+            seller,
+
+            buyer,
+
+            status,
+
+            completed
+
+        } = req.query;
+
+        const query = {};
+
+        if (propertyId)
+            query.propertyId = propertyId;
+
+        if (seller)
+            query.seller = seller;
+
+        if (buyer)
+            query.buyer = buyer;
+
+        if (status)
+            query.status = status;
+
+        if (completed !== undefined)
+            query.completed = completed === "true";
+
         const transfers =
-            await Transfer.find();
+            await Transfer.find(query);
 
         return successResponse(
             res,
