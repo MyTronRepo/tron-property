@@ -24,13 +24,26 @@ const {
 
 } = require("../middleware/authMiddleware");
 
+const validate =
+    require("../middleware/validationMiddleware");
+
+const {
+
+    transferCreateValidation
+
+} = require("../validators/transferValidator");
+
 router.post(
 
     "/create",
 
     authenticate,
 
-    authorize("owner"),
+    authorize("Owner"),
+
+    transferCreateValidation,
+
+    validate,
 
     createTransferRequest
 
@@ -62,7 +75,7 @@ router.patch(
 
     authenticate,
 
-    authorize("buyer"),
+    authorize("Buyer"),
 
     approveTransferByBuyer
 
@@ -74,7 +87,7 @@ router.patch(
 
     authenticate,
 
-    authorize("admin"),
+    authorize("Admin"),
 
     approveTransferByAdmin
 
