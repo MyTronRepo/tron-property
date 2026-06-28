@@ -40,6 +40,17 @@ const createTransferRequest = async (
 
         }
 
+        // Prevent self transfer
+        if (seller === buyer) {
+
+            return errorResponse(
+                res,
+                "Seller and buyer cannot be the same",
+                400
+            );
+
+        }
+
         if (
             Number(transferredShare) < 1
         ) {
@@ -134,6 +145,7 @@ const createTransferRequest = async (
         );
 
     }
+
     catch (error) {
 
         return errorResponse(
