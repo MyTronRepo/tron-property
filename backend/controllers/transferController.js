@@ -51,6 +51,17 @@ const createTransferRequest = async (
 
         }
 
+        // Prevent self transfer
+        if (seller === buyer) {
+
+            return errorResponse(
+                res,
+                "Seller and buyer cannot be the same",
+                400
+            );
+
+        }
+
         if (
             Number(transferredShare) < 1
         ) {
@@ -288,6 +299,20 @@ const approveTransferByBuyer = async (
 
         }
 
+        if (Date.now() > transfer.expireAt) {
+
+     transfer.status = "Expired";
+
+    await transfer.save();
+
+    return errorResponse(
+        res,
+        "Transfer request has expired",
+        400
+    );
+
+}
+
         transfer.buyerApproved = true;
 
         transfer.status =
@@ -352,6 +377,20 @@ const approveTransferByAdmin = async (
             );
 
         }
+
+        if (Date.now() > transfer.expireAt) {
+
+    transfer.status = "Expired";
+
+    await transfer.save();
+
+    return errorResponse(
+        res,
+        "Transfer request has expired",
+        400
+    );
+
+}
 
         const property =
             await Property.findOne({

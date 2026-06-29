@@ -139,7 +139,9 @@ const getDocumentsByProperty = async (req, res) => {
 
             verified,
 
-            documentType
+            documentType,
+
+            uploadedBy
 
         } = req.query;
 
@@ -151,11 +153,17 @@ const getDocumentsByProperty = async (req, res) => {
         if (documentType)
             query.documentType = documentType;
 
+        if (uploadedBy)
+            query.uploadedBy = uploadedBy;
+
         if (verified !== undefined)
             query.verified = verified === "true";
 
         const documents =
-            await Document.find(query);
+            await Document.find(query)
+                .sort({
+                    createdAt: -1
+                });
 
         return successResponse(
 

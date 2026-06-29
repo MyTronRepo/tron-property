@@ -184,13 +184,16 @@ const searchProperties = async (req, res) => {
         }
 
         const properties =
-            await Property.find(query);
+    await Property.find(query)
+        .sort({
+            createdAt: -1
+        });
 
-        return successResponse(
-            res,
-            properties,
-            "Properties fetched successfully"
-        );
+return successResponse(
+    res,
+    properties,
+    "Properties fetched successfully"
+);
 
     }
 
@@ -256,6 +259,22 @@ const updatePropertyStatus = async (req, res) => {
         const { propertyId } = req.params;
 
         const { status } = req.body;
+
+        const allowedStatus = [
+    "Pending",
+    "Verified",
+    "Rejected"
+];
+
+if (!allowedStatus.includes(status)) {
+
+    return errorResponse(
+        res,
+        "Invalid property status",
+        400
+    );
+
+}
 
         const property =
             await Property.findOne({

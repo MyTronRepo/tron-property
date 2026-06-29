@@ -29,6 +29,7 @@ const propertyRoutes = require("./routes/propertyRoutes");
 const documentRoutes = require("./routes/documentRoutes");
 const transferRoutes = require("./routes/transferRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const logRoutes = require("./routes/logRoutes");
 
 // =========================
 // Route Registration
@@ -42,6 +43,8 @@ app.use("/api/documents", documentRoutes);
 app.use("/api/transfers", transferRoutes);
 
 app.use("/api/dashboard", dashboardRoutes);
+
+app.use("/api/logs", logRoutes);
 
 // =========================
 // Root Route
@@ -95,11 +98,11 @@ app.use((err, req, res, next) => {
 
     console.error(err.stack);
 
-    res.status(500).json({
+    res.status(err.status || 500).json({
 
         success: false,
 
-        message: "Internal Server Error"
+        message: err.message || "Internal Server Error"
 
     });
 
